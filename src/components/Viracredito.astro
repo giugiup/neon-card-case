@@ -50,8 +50,13 @@ const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
         </div>
       </div>
       <ol class="viracredito__diagram" aria-label="Do dinheiro guardado à possibilidade de limite" role="list">
-        <li class="viracredito__step" data-idle="cdb">
-          <div class="viracredito__step-main" data-scroll-reveal="viracredito-first-step" style="--viracredito-delay: 750ms">
+        <li
+          class="viracredito__step"
+          data-scroll-reveal="viracredito-first-step"
+          data-idle="cdb"
+          style="--viracredito-delay: 750ms"
+        >
+          <div class="viracredito__step-main">
             <span class="viracredito__icon" aria-hidden="true">R$</span>
             <div class="viracredito__step-copy">
               <h3>Dinheiro no CDB</h3>
@@ -60,8 +65,13 @@ const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
           </div>
           <span class="viracredito__arrow" aria-hidden="true" data-scroll-reveal="viracredito-arrow" style="--viracredito-delay: 910ms">↓</span>
         </li>
-        <li class="viracredito__step" data-idle="limit">
-          <div class="viracredito__step-main" data-scroll-reveal="viracredito-second-step" style="--viracredito-delay: 1070ms">
+        <li
+          class="viracredito__step"
+          data-scroll-reveal="viracredito-second-step"
+          data-idle="limit"
+          style="--viracredito-delay: 1070ms"
+        >
+          <div class="viracredito__step-main">
             <span class="viracredito__icon" aria-hidden="true">↗</span>
             <div class="viracredito__step-copy">
               <h3>Possibilidade de limite</h3>
@@ -90,10 +100,10 @@ const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
     });
   });
 
-  document.querySelectorAll<HTMLElement>('.viracredito__step-main').forEach((target) => {
+  document.querySelectorAll<HTMLElement>('.viracredito__step').forEach((target) => {
     target.addEventListener('transitionend', (event) => {
       if (event.target !== target || event.propertyName !== 'opacity') return;
-      target.closest<HTMLElement>('.viracredito__step')?.setAttribute('data-idle-ready', 'true');
+      target.setAttribute('data-idle-ready', 'true');
     });
   });
 

@@ -1,0 +1,253 @@
+---
+const questions = [
+  {
+    question: 'O cartão tem anuidade?',
+    answer: 'O cartão Neon é apresentado como sem anuidade. Serviços adicionais podem ter condições e cobranças próprias.',
+  },
+  {
+    question: 'Preciso ter uma conta Neon?',
+    answer: 'Sim. O processo apresentado pela Neon começa pela abertura da conta e continua no aplicativo.',
+  },
+  {
+    question: 'A aprovação é imediata?',
+    answer: 'O pedido passa por análise de crédito. A aprovação e o limite dependem dessa avaliação.',
+  },
+  {
+    question: 'Como funciona o limite?',
+    answer: 'O limite inicial é definido na análise. A Neon também oferece o Viracrédito, com dinheiro reservado em CDB que pode virar limite, conforme as condições do produto.',
+  },
+];
+---
+
+<section class="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <h2 id="faq-title">Antes de pedir, tire suas dúvidas.</h2>
+    <div class="faq__items">
+      {questions.map(({ question, answer }, index) => (
+        <div class="faq__item">
+          <h3>
+            <button
+              class="faq__trigger"
+              type="button"
+              id={`faq-question-${index + 1}`}
+              aria-expanded={index === 0 ? 'true' : 'false'}
+              aria-controls={`faq-answer-${index + 1}`}
+              data-faq-trigger
+            >
+              <span class="faq__question">{question}</span>
+              <span class="faq__indicator" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div
+            class="faq__answer"
+            id={`faq-answer-${index + 1}`}
+            role="region"
+            aria-labelledby={`faq-question-${index + 1}`}
+            aria-hidden={index !== 0 ? 'true' : 'false'}
+            inert={index !== 0}
+            data-open={index === 0 ? 'true' : 'false'}
+          >
+            <div class="faq__answer-inner">
+              <p>{answer}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-faq-trigger]').forEach((button) => {
+    const panelId = button.getAttribute('aria-controls');
+    const panel = panelId ? document.getElementById(panelId) : null;
+    if (!panel) return;
+
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+      panel.setAttribute('data-open', String(!expanded));
+      panel.setAttribute('aria-hidden', String(expanded));
+      panel.inert = expanded;
+    });
+  });
+</script>
+
+<style>
+  .faq {
+    min-height: 740px;
+    padding-block: 64px 120px;
+    background: var(--color-surface-soft);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
+  }
+
+  h2 {
+    font-size: var(--font-size-h2-mobile);
+    line-height: 1.18;
+  }
+
+  .faq__items {
+    margin-top: 36px;
+  }
+
+  .faq__item {
+    position: relative;
+    padding-block: 20px;
+  }
+
+  .faq__item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: #dce4e7;
+  }
+
+  .faq__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.26;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .faq__question {
+    min-width: 0;
+  }
+
+  .faq__indicator {
+    position: relative;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+  }
+
+  .faq__indicator::before,
+  .faq__indicator::after {
+    content: "";
+    position: absolute;
+    border-radius: 1.2px;
+    background: var(--color-brand);
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .faq__indicator::before {
+    width: 12px;
+    height: 2.4px;
+    left: 10px;
+    top: 14.8px;
+  }
+
+  .faq__indicator::after {
+    width: 2.4px;
+    height: 12px;
+    left: 14.8px;
+    top: 10px;
+  }
+
+  .faq__trigger[aria-expanded="true"] .faq__indicator::after {
+    transform: scaleY(0);
+  }
+
+  .faq__answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+      grid-template-rows 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 220ms ease,
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .faq__answer[data-open="true"] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .faq__answer-inner {
+    min-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: padding-top 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .faq__answer[data-open="true"] .faq__answer-inner {
+    padding-top: 16px;
+  }
+
+  @media (min-width: 1200px) {
+    .faq {
+      min-height: 733px;
+      padding-block: 94px 144px;
+    }
+
+    h2 {
+      font-size: var(--font-size-h2-desktop);
+      line-height: 1.12;
+    }
+
+    .faq__items {
+      margin-top: 48px;
+    }
+
+    .faq__item {
+      padding-block: 22px;
+    }
+
+    .faq__trigger {
+      min-height: 44px;
+      gap: 16px;
+      font-size: 1.3125rem;
+      line-height: 1.2;
+    }
+
+    .faq__indicator {
+      width: 36px;
+      height: 36px;
+    }
+
+    .faq__indicator::before {
+      width: 14px;
+      left: 11px;
+      top: 16.8px;
+    }
+
+    .faq__indicator::after {
+      height: 14px;
+      left: 16.8px;
+      top: 11px;
+    }
+
+    .faq__answer-inner {
+      font-size: 1.0625rem;
+      line-height: 1.48;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__answer,
+    .faq__answer-inner,
+    .faq__indicator::before,
+    .faq__indicator::after {
+      transition: none;
+    }
+  }
+</style>

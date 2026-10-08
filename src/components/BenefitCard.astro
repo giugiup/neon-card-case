@@ -1,0 +1,88 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  icon: {
+    mobile: string;
+    desktop: string;
+  };
+}
+
+const { title, description, icon } = Astro.props;
+---
+
+<article class="benefit-card">
+  <picture class="benefit-card__icon" aria-hidden="true">
+    <source media="(min-width: 1200px)" srcset={icon.desktop} width="64" height="64" />
+    <img src={icon.mobile} alt="" width="56" height="56" loading="lazy" decoding="async" />
+  </picture>
+  <div class="benefit-card__copy">
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </div>
+</article>
+
+<style>
+  .benefit-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    height: 100%;
+    min-height: 240px;
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid #e2e8ee;
+    border-radius: 20px;
+    background: var(--color-surface);
+    box-shadow: 0 5px 7px rgb(18 38 66 / 5%);
+  }
+
+  .benefit-card__icon {
+    flex-shrink: 0;
+  }
+
+  .benefit-card__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+    max-width: 340px;
+    min-width: 0;
+  }
+
+  h3 {
+    color: var(--color-text-primary);
+    font-size: 1.4375rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.17;
+  }
+
+  p {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  @media (min-width: 1200px) {
+    .benefit-card {
+      gap: 22px;
+      min-height: 260px;
+      padding: 30px;
+      border-radius: 22px;
+    }
+
+    .benefit-card__copy {
+      gap: 12px;
+    }
+
+    h3 {
+      font-size: 1.6875rem;
+    }
+
+    p {
+      font-size: 1.125rem;
+      line-height: 1.48;
+    }
+  }
+</style>

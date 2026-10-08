@@ -1,0 +1,236 @@
+---
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+
+const benefits = [
+  {
+    title: 'Fatura Protegida',
+    description: 'Um seguro para ajudar a cobrir a fatura ou o saldo devedor nas situações previstas na cobertura.',
+    image: `${baseUrl}images/neon-extra-bill-protection.webp`,
+    width: 1145,
+    height: 1374,
+    customCrop: true,
+  },
+  {
+    title: 'Cashback no crédito',
+    description: 'Receba parte do valor das suas compras de volta ao contratar o plano de cashback.',
+    image: `${baseUrl}images/neon-extra-cashback.webp`,
+    width: 1672,
+    height: 941,
+    customCrop: false,
+  },
+  {
+    title: 'Pix via crédito',
+    description: 'Faça um Pix usando o limite disponível do seu cartão de crédito.',
+    image: `${baseUrl}images/neon-extra-pix.webp`,
+    width: 1663,
+    height: 945,
+    customCrop: false,
+  },
+];
+---
+
+<section class="extra-benefits" aria-labelledby="extra-benefits-title">
+  <div class="container">
+    <div class="extra-benefits__intro">
+      <h2 id="extra-benefits-title">Mais possibilidades para o seu cartão.</h2>
+      <p class="extra-benefits__subtitle extra-benefits__subtitle--desktop">Conheça recursos que você pode usar ou contratar pelo aplicativo.</p>
+      <p class="extra-benefits__subtitle extra-benefits__subtitle--mobile">Conheça recursos que você pode usar ou contratar pelo aplicativo, conforme as condições de cada serviço.</p>
+    </div>
+
+    <ul class="extra-benefits__grid" role="list">
+      {benefits.map((benefit, index) => (
+        <li data-scroll-reveal="possibilities" style={`--reveal-delay: ${index * 180}ms`}>
+          <article class="extra-benefits__card">
+            <div class:list={['extra-benefits__image', { 'extra-benefits__image--bill': benefit.customCrop }]}>
+              <img src={benefit.image} alt="" width={benefit.width} height={benefit.height} loading="lazy" decoding="async" />
+            </div>
+            <h3>{benefit.title}</h3>
+            <p>{benefit.description}</p>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .extra-benefits {
+    padding-block: 65px 70px;
+    background: #f0f7f9;
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
+  }
+
+  .extra-benefits__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  h2 {
+    max-width: 1248px;
+    font-size: var(--font-size-h2-mobile);
+    line-height: 1.18;
+  }
+
+  .extra-benefits__subtitle,
+  .extra-benefits__card p {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.48;
+  }
+
+  .extra-benefits__subtitle--desktop {
+    display: none;
+  }
+
+  .extra-benefits__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    margin-top: 27px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .extra-benefits__grid > li {
+    min-width: 0;
+  }
+
+  :global(html.has-scroll-reveal) .extra-benefits__grid > li[data-scroll-reveal="possibilities"]:not([data-scroll-revealed="true"]) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .extra-benefits__grid > li[data-scroll-reveal="possibilities"][data-scroll-revealed="true"] {
+    transition:
+      opacity 850ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .extra-benefits__card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .extra-benefits__image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .extra-benefits__image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Crop original de Fatura Protegida (62:74 e 62:114).
+     A proporção intrínseca produz 160% da altura da janela 4:3. */
+  .extra-benefits__image--bill img {
+    top: -10.727416%;
+    height: auto;
+  }
+
+  h3 {
+    font-size: 1.4375rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.18;
+  }
+
+  @media (min-width: 390px) and (max-width: 767px) {
+    .extra-benefits {
+      min-height: 1475.5px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .extra-benefits__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .extra-benefits__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .extra-benefits {
+      min-height: 728px;
+      padding-block: 80px;
+    }
+
+    .extra-benefits__intro {
+      gap: 13px;
+    }
+
+    h2 {
+      font-size: var(--font-size-h2-desktop);
+      line-height: 1.12;
+    }
+
+    .extra-benefits__subtitle--desktop {
+      display: block;
+      max-width: 1080px;
+      font-size: 1.1875rem;
+    }
+
+    .extra-benefits__subtitle--mobile {
+      display: none;
+    }
+
+    .extra-benefits__grid {
+      margin-top: 32px;
+      gap: 24px;
+    }
+
+    .extra-benefits__card {
+      gap: 14px;
+    }
+
+    /* Borda interna do Figma, sem reduzir a área do recorte. */
+    .extra-benefits__image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgb(174 206 219 / 75%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    h3 {
+      font-size: 1.5625rem;
+    }
+
+    .extra-benefits__card p {
+      font-size: 1.125rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.has-scroll-reveal) .extra-benefits__grid > li[data-scroll-reveal="possibilities"]:not([data-scroll-revealed="true"]) {
+      opacity: 1;
+      transform: none;
+    }
+
+    .extra-benefits__grid > li[data-scroll-reveal="possibilities"] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

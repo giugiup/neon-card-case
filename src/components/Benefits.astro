@@ -1,0 +1,218 @@
+---
+import BenefitCard from './BenefitCard.astro';
+
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+
+const benefits = [
+  {
+    title: 'Sem anuidade',
+    description: 'Uma despesa a menos para ter seu cartão de crédito.',
+    icon: {
+      mobile: `${baseUrl}icons/benefit-no-fee-mobile.svg`,
+      desktop: `${baseUrl}icons/benefit-no-fee-desktop.svg`,
+    },
+  },
+  {
+    title: 'Controle pelo app',
+    description: 'Acompanhe seus gastos e consulte sua fatura em um só lugar.',
+    icon: {
+      mobile: `${baseUrl}icons/benefit-app-control-mobile.svg`,
+      desktop: `${baseUrl}icons/benefit-app-control-desktop.svg`,
+    },
+  },
+  {
+    title: 'Cartão virtual',
+    description: 'Uma opção para compras online no app. O uso no crédito depende de liberação.',
+    icon: {
+      mobile: `${baseUrl}icons/benefit-virtual-card-mobile.svg`,
+      desktop: `${baseUrl}icons/benefit-virtual-card-desktop.svg`,
+    },
+  },
+];
+---
+
+<section class="benefits" aria-labelledby="benefits-title">
+  <div class="container benefits__container">
+    <h2 id="benefits-title" class="benefits__title">
+      <span>Mais simples</span>{' '}
+      <span class="benefits__title-end">
+        <span class="benefits__coin" aria-hidden="true">
+          <span class="benefits__coin-image">
+            <img src={`${baseUrl}images/neon-benefits-coin.webp`} alt="" width="256" height="256" loading="lazy" decoding="async" />
+          </span>
+        </span>
+        <span>no dia a dia.</span>
+      </span>
+    </h2>
+    <ul class="benefits__grid" role="list">
+      {benefits.map((benefit, index) => (
+        <li data-scroll-reveal="rise" style={`--reveal-delay: ${index * 120}ms`}><BenefitCard {...benefit} /></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { initScrollReveal } from '../scripts/scroll-reveal';
+
+  initScrollReveal();
+</script>
+
+<style>
+  .benefits {
+    min-height: 1008px;
+    padding-block: 60px 72px;
+    background: var(--color-surface);
+    font-family: var(--font-family-base);
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
+  }
+
+  .benefits__title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: var(--color-text-primary);
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.12;
+  }
+
+  .benefits__title-end {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  /* Moeda original e placa azul do Figma, nós 27:119 e 27:77. */
+  .benefits__coin {
+    position: relative;
+    flex-shrink: 0;
+    width: 44.467px;
+    height: 46px;
+  }
+
+  .benefits__coin::before {
+    content: "";
+    position: absolute;
+    inset: auto auto 0 0;
+    width: 43.045px;
+    height: 34.101px;
+    border-radius: 16px;
+    background: var(--color-brand);
+    opacity: 0.5;
+  }
+
+  .benefits__coin-image {
+    position: absolute;
+    top: 0;
+    left: 4.6px;
+    width: 39.867px;
+    height: 41.4px;
+    overflow: hidden;
+  }
+
+  .benefits__coin img {
+    position: absolute;
+    width: 134.62%;
+    max-width: none;
+    height: 129.63%;
+    left: -16.79%;
+    top: -16.67%;
+  }
+
+  .benefits__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-top: 28px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .benefits__grid > li {
+    min-width: 0;
+  }
+
+  :global(html.has-scroll-reveal) .benefits__grid > li[data-scroll-reveal="rise"]:not([data-scroll-revealed="true"]) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .benefits__grid > li[data-scroll-reveal="rise"][data-scroll-revealed="true"] {
+    transition:
+      opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  @media (min-width: 768px) {
+    .benefits {
+      min-height: 0;
+    }
+
+    .benefits__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .benefits__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .benefits {
+      min-height: 564px;
+      padding-block: 100px;
+    }
+
+    .benefits__title {
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 16px;
+      font-size: var(--font-size-h2-desktop);
+    }
+
+    .benefits__title-end {
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .benefits__coin {
+      width: 58px;
+      height: 60px;
+    }
+
+    .benefits__coin::before {
+      width: 56.146px;
+      height: 44.479px;
+    }
+
+    .benefits__coin-image {
+      left: 6px;
+      width: 52px;
+      height: 54px;
+    }
+
+    .benefits__grid {
+      margin-top: 44px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.has-scroll-reveal) .benefits__grid > li[data-scroll-reveal="rise"]:not([data-scroll-revealed="true"]) {
+      opacity: 1;
+      transform: none;
+    }
+
+    .benefits__grid > li[data-scroll-reveal="rise"] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

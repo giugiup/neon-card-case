@@ -1,0 +1,559 @@
+---
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<section
+  class="viracredito"
+  aria-labelledby="viracredito-title"
+  style={`--viracredito-mobile-lines-mask: url("${baseUrl}images/neon-viracredito-mobile-lines.svg")`}
+>
+  <div class="container viracredito__layout">
+    <div class="viracredito__copy" data-scroll-reveal="viracredito-copy" style="--viracredito-delay: 0ms">
+      <p class="viracredito__eyebrow">Viracrédito Neon</p>
+      <h2 id="viracredito-title">Dinheiro guardado que pode virar limite.</h2>
+      <p class="viracredito__description">Você guarda dinheiro em um CDB Neon e esse valor pode se transformar em limite para usar no cartão. Enquanto o dinheiro fica investido, você continua pagando sua fatura normalmente.</p>
+      <p class="viracredito__conditions">Disponibilidade e limites sujeitos às condições do Viracrédito Neon. Consulte o app antes de investir.</p>
+    </div>
+
+    <div class="viracredito__visual">
+      <div class="viracredito__pig" aria-hidden="true" data-scroll-reveal="viracredito-pig" style="--viracredito-delay: 450ms">
+        <img src={`${baseUrl}images/neon-viracredito-pig.png`} alt="" width="1247" height="1261" loading="lazy" decoding="async" />
+      </div>
+      <div class="viracredito__mobile-composition">
+        <div
+          class="viracredito__mobile-lines"
+          aria-hidden="true"
+          data-scroll-reveal="viracredito-mobile-lines"
+          style="--viracredito-delay: 1840ms"
+        >
+          <div class="viracredito__mobile-lines-reveal">
+            <img src={`${baseUrl}images/neon-viracredito-mobile-lines.svg`} alt="" width="342" height="418" />
+            <span class="viracredito__mobile-lines-flow"></span>
+          </div>
+        </div>
+        <div class="viracredito__mobile-pig" aria-hidden="true" data-scroll-reveal="viracredito-pig" style="--viracredito-delay: 450ms">
+          <img src={`${baseUrl}images/neon-viracredito-pig.png`} alt="" width="1247" height="1261" loading="lazy" decoding="async" />
+        </div>
+        <div class="viracredito__mobile-card viracredito__mobile-card--cdb" data-scroll-reveal="viracredito-first-step" data-idle="cdb" style="--viracredito-delay: 750ms">
+          <span class="viracredito__mobile-icon" aria-hidden="true">R$</span>
+          <span class="viracredito__mobile-card-copy">
+            <span>Dinheiro guardado</span>
+            <strong>no CDB</strong>
+          </span>
+        </div>
+        <div class="viracredito__mobile-card viracredito__mobile-card--limit" data-scroll-reveal="viracredito-second-step" data-idle="limit" style="--viracredito-delay: 1070ms">
+          <span class="viracredito__mobile-icon" aria-hidden="true">↗</span>
+          <span class="viracredito__mobile-card-copy">
+            <span>Pode virar limite</span>
+            <strong>no cartão</strong>
+          </span>
+        </div>
+      </div>
+      <ol class="viracredito__diagram" aria-label="Do dinheiro guardado à possibilidade de limite" role="list">
+        <li class="viracredito__step" data-idle="cdb">
+          <div class="viracredito__step-main" data-scroll-reveal="viracredito-first-step" style="--viracredito-delay: 750ms">
+            <span class="viracredito__icon" aria-hidden="true">R$</span>
+            <div class="viracredito__step-copy">
+              <h3>Dinheiro no CDB</h3>
+              <p>Valor guardado</p>
+            </div>
+          </div>
+          <span class="viracredito__arrow" aria-hidden="true" data-scroll-reveal="viracredito-arrow" style="--viracredito-delay: 910ms">↓</span>
+        </li>
+        <li class="viracredito__step" data-idle="limit">
+          <div class="viracredito__step-main" data-scroll-reveal="viracredito-second-step" style="--viracredito-delay: 1070ms">
+            <span class="viracredito__icon" aria-hidden="true">↗</span>
+            <div class="viracredito__step-copy">
+              <h3>Possibilidade de limite</h3>
+              <p>Conforme as condições</p>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initScrollReveal } from '../scripts/scroll-reveal';
+
+  document.querySelectorAll<HTMLElement>('.viracredito__mobile-lines, .viracredito__mobile-card').forEach((target) => {
+    target.addEventListener('transitionend', (event) => {
+      const isLines = target.matches('.viracredito__mobile-lines');
+      const hasEntered = isLines ? event.propertyName === 'clip-path' : event.propertyName === 'opacity';
+
+      if (!(event.target instanceof Node)) return;
+
+      if ((event.target === target || target.contains(event.target)) && hasEntered) {
+        target.dataset.idleReady = 'true';
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('.viracredito__step-main').forEach((target) => {
+    target.addEventListener('transitionend', (event) => {
+      if (event.target !== target || event.propertyName !== 'opacity') return;
+      target.closest<HTMLElement>('.viracredito__step')?.setAttribute('data-idle-ready', 'true');
+    });
+  });
+
+  initScrollReveal();
+</script>
+
+<style>
+  .viracredito {
+    padding-block: 64px 50px;
+    min-height: 633px;
+    color: var(--color-text-inverse);
+    background: linear-gradient(114.8009655288deg, var(--color-brand-deep) 7.1429%, var(--color-action) 78.571%);
+    font-family: var(--font-family-base);
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
+  }
+
+  .viracredito__layout {
+    display: grid;
+    gap: 24px;
+  }
+
+  .viracredito__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .viracredito__eyebrow {
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.24;
+  }
+
+  h2 {
+    font-size: var(--font-size-h2-mobile);
+    line-height: 1.16;
+  }
+
+  .viracredito__description {
+    font-size: 1rem;
+    line-height: 1.48;
+  }
+
+  .viracredito__conditions {
+    color: #ddf1fc;
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .viracredito__visual {
+    display: grid;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .viracredito__mobile-composition {
+    display: none;
+  }
+
+  .viracredito__pig {
+    display: none;
+  }
+
+  .viracredito__diagram {
+    /* A seta ocupa 22px, com 7px livres de cada lado. */
+    --diagram-arrow-height: 22px;
+    --diagram-arrow-gap: 7px;
+    display: grid;
+    gap: calc(var(--diagram-arrow-height) + 2 * var(--diagram-arrow-gap));
+    padding: 0;
+    min-width: 0;
+    list-style: none;
+  }
+
+  .viracredito__step {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 74px;
+    min-width: 0;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: #f4fbff;
+  }
+
+  .viracredito__step-main {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .viracredito__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #dbf4fa;
+    color: var(--color-action);
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.1;
+  }
+
+  .viracredito__step-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    min-height: 45px;
+  }
+
+  h3 {
+    color: var(--color-text-primary);
+    font-size: 1.0625rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.17;
+  }
+
+  .viracredito__step-copy p {
+    color: #4a6477;
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .viracredito__arrow {
+    position: absolute;
+    top: calc(100% + var(--diagram-arrow-gap));
+    left: calc(50% - 22px);
+    width: 44px;
+    color: #bdf7fa;
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  @media (max-width: 767px) {
+    .viracredito {
+      background: linear-gradient(108.8861deg, #003966 7.1429%, #0062b2 78.571%);
+    }
+
+    h2 {
+      font-size: 2.125rem;
+      line-height: 1.16;
+      letter-spacing: -0.5px;
+    }
+
+    .viracredito__visual {
+      display: block;
+    }
+
+    .viracredito__mobile-composition {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 342 / 418;
+      container-type: inline-size;
+    }
+
+    .viracredito__mobile-lines {
+      position: absolute;
+      inset: 0;
+    }
+
+    .viracredito__mobile-lines-reveal {
+      position: absolute;
+      inset: 0;
+    }
+
+    :global(html.has-scroll-reveal) .viracredito__mobile-lines:not([data-scroll-revealed="true"]) .viracredito__mobile-lines-reveal {
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .viracredito__mobile-lines-reveal img,
+    .viracredito__mobile-lines-flow {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .viracredito__mobile-lines-flow {
+      background: linear-gradient(105deg, transparent 38%, rgb(235 253 255 / 58%) 49%, rgb(235 253 255 / 58%) 51%, transparent 62%);
+      background-size: 250% 100%;
+      mask: var(--viracredito-mobile-lines-mask) center / 100% 100% no-repeat;
+      opacity: 0.55;
+      pointer-events: none;
+      -webkit-mask: var(--viracredito-mobile-lines-mask) center / 100% 100% no-repeat;
+    }
+
+    .viracredito__mobile-pig {
+      position: absolute;
+      top: 16.7464%;
+      left: 20.1754%;
+      width: 59.8033%;
+      height: 70.1638%;
+      overflow: hidden;
+    }
+
+    .viracredito__mobile-pig img {
+      position: absolute;
+      top: -0.04%;
+      left: -25.22%;
+      width: 141.88%;
+      max-width: none;
+      height: 100.05%;
+    }
+
+    .viracredito__mobile-card {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 62px;
+      padding: 12px;
+      border: 1px solid #dceff5;
+      border-radius: 14px;
+      background: rgb(247 252 255 / 98%);
+      box-shadow: 0 8px 22px rgb(5 43 87 / 14%);
+      color: #102d4c;
+    }
+
+    .viracredito__mobile-card--cdb {
+      top: 9.3301%;
+      right: 0;
+      width: max(191px, 55.848%);
+    }
+
+    .viracredito__mobile-card--limit {
+      top: 78.2297%;
+      left: 0;
+      width: max(193px, 56.433%);
+    }
+
+    .viracredito__mobile-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 36px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #dbf4fa;
+      color: #0062b2;
+      font-size: 1rem;
+      font-weight: var(--font-weight-bold);
+      line-height: 1.1;
+    }
+
+    .viracredito__mobile-card-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      font-size: 0.6875rem;
+      line-height: 1.18;
+    }
+
+    .viracredito__mobile-card-copy > span {
+      color: #456a81;
+    }
+
+    .viracredito__mobile-card-copy strong {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-bold);
+    }
+
+    .viracredito__pig,
+    .viracredito__diagram {
+      display: none;
+    }
+
+    .viracredito__mobile-card[data-idle-ready="true"][data-idle="cdb"] {
+      animation: viracredito-card-float 4.8s ease-in-out infinite;
+    }
+
+    .viracredito__mobile-card[data-idle-ready="true"][data-idle="limit"] {
+      animation: viracredito-card-float 4.3s ease-in-out infinite;
+    }
+
+    .viracredito__mobile-lines[data-idle-ready="true"] .viracredito__mobile-lines-flow {
+      animation: viracredito-lines-flow 6s linear infinite;
+    }
+  }
+
+  @keyframes viracredito-card-float {
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes viracredito-lines-flow {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+  }
+
+  @media (max-width: 767px) {
+    .viracredito__mobile-lines[data-scroll-revealed="true"] .viracredito__mobile-lines-reveal {
+      clip-path: inset(0);
+      transition:
+        clip-path 850ms cubic-bezier(0.22, 1, 0.36, 1) var(--viracredito-delay, 0ms);
+    }
+  }
+
+  :global(html.has-scroll-reveal) .viracredito [data-scroll-reveal]:not([data-scroll-revealed="true"]) {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .viracredito [data-scroll-reveal][data-scroll-revealed="true"] {
+    transition:
+      opacity 750ms cubic-bezier(0.22, 1, 0.36, 1) var(--viracredito-delay, 0ms),
+      transform 750ms cubic-bezier(0.22, 1, 0.36, 1) var(--viracredito-delay, 0ms);
+  }
+
+  @media (min-width: 768px) {
+    :global(html.has-scroll-reveal) .viracredito__pig[data-scroll-reveal="viracredito-pig"]:not([data-scroll-revealed="true"]) {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .viracredito__step[data-idle-ready="true"][data-idle="cdb"] {
+      animation: viracredito-desktop-card-idle 6s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .viracredito__step[data-idle-ready="true"][data-idle="limit"] {
+      animation: viracredito-desktop-card-idle 6s ease-in-out -2.7s infinite;
+      will-change: transform;
+    }
+
+    .viracredito__step[data-idle] {
+      box-shadow: 0 5px 16px rgb(5 43 87 / 10%);
+    }
+  }
+
+  @keyframes viracredito-desktop-card-idle {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+      transform: translate3d(0, -3px, 0);
+    }
+
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .viracredito__layout {
+      gap: 40px;
+    }
+
+    .viracredito__visual {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    /* Crop original do nó 58:77; a imagem mantém sua proporção intrínseca. */
+    .viracredito__pig {
+      display: block;
+      position: relative;
+      width: 100%;
+      max-width: 322px;
+      aspect-ratio: 322 / 442.1766357421875;
+      justify-self: center;
+      overflow: hidden;
+    }
+
+    .viracredito__pig img {
+      position: absolute;
+      width: 135.89744%;
+      max-width: none;
+      height: auto;
+      left: -19.942999%;
+      top: -0.036852%;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .viracredito {
+      padding-block: 80px;
+      min-height: 642px;
+      background: linear-gradient(149.2708692332deg, var(--color-brand-deep) 7.1429%, var(--color-action) 78.571%);
+    }
+
+    .viracredito__layout {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+      gap: 24px;
+    }
+
+    .viracredito__copy {
+      gap: 20px;
+    }
+
+    .viracredito__eyebrow {
+      color: var(--color-accent);
+      font-size: 1.0625rem;
+    }
+
+    h2 {
+      font-size: var(--font-size-h2-desktop);
+      line-height: 1.12;
+    }
+
+    .viracredito__description {
+      font-size: 1.1875rem;
+      line-height: 1.5;
+    }
+
+    .viracredito__visual {
+      grid-column: span 2;
+      min-height: 482px;
+    }
+
+    .viracredito__diagram {
+      --diagram-arrow-height: 29.7px;
+      --diagram-arrow-gap: 15px;
+    }
+
+    .viracredito__step {
+      min-height: 82px;
+      padding: 18px 22px;
+    }
+
+    .viracredito__icon {
+      font-size: 1.125rem;
+    }
+
+    .viracredito__arrow {
+      font-size: 1.6875rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .viracredito [data-scroll-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .viracredito__mobile-card,
+    .viracredito__mobile-lines-flow,
+    .viracredito__step-main {
+      animation: none !important;
+    }
+
+    .viracredito__step[data-idle-ready="true"][data-idle] {
+      animation: none !important;
+      transform: none;
+      will-change: auto;
+    }
+  }
+</style>

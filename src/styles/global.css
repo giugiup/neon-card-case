@@ -65,6 +65,23 @@ textarea {
   font: inherit;
 }
 
+.button-interaction {
+  transition:
+    translate 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button-interaction:hover:not(:focus-visible) {
+    translate: 0 -2px;
+    box-shadow: 0 6px 16px rgb(5 43 87 / 18%);
+  }
+
+  .button-interaction:active {
+    translate: 0 0;
+  }
+}
+
 :focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 3px;
@@ -87,5 +104,10 @@ textarea {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .button-interaction {
+    transition: none;
+    translate: none;
   }
 }

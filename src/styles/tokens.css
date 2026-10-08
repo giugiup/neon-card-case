@@ -38,7 +38,7 @@
   --font-size-h2: var(--font-size-h2-mobile);
 
   /* O limite se aplica ao conteúdo, sem incluir as margens laterais. */
-  --container-max-width: 1248px;
+  --container-max-width: 1328px;
   --container-gutter: 20px;
 }
 
@@ -54,13 +54,12 @@
   }
 }
 
+/* Handoff atualizado: 56px também entre 1024 e 1199px.
+   Em 1440px, Header, Hero e Benefícios têm 1328px de conteúdo. */
 @media (min-width: 1024px) {
   :root {
-    --container-gutter: 48px;
+    --container-gutter: 56px;
     --font-size-h1: var(--font-size-h1-desktop);
     --font-size-h2: var(--font-size-h2-desktop);
   }
 }
-
-/* A partir de 1200px, mantém-se o mínimo de 48px. O limite de conteúdo
-   gera margens de 96px em 1440px e margens maiores em telas mais largas. */

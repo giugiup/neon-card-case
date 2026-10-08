@@ -1,0 +1,120 @@
+---
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__top">
+      <a class="footer__brand" href={baseUrl} aria-label="Neon — página inicial">
+        <picture>
+          <source media="(min-width: 1200px)" srcset={`${baseUrl}icons/neon-logo-desktop.svg`} width="145" height="32.2222" />
+          <img src={`${baseUrl}icons/neon-logo-mobile.svg`} alt="Neon" width="104" height="23" loading="lazy" decoding="async" />
+        </picture>
+      </a>
+
+      <nav class="footer__nav" aria-label="Links institucionais">
+        <a href="https://neon.com.br/atendimento-neon">Atendimento</a>
+        <a href="https://site.neon.com.br/portal-privacidade">Privacidade</a>
+        <a href="https://neon.com.br/mapa-do-site">Termos e tarifas</a>
+      </nav>
+    </div>
+
+    <p class="footer__notice">Este é um projeto independente de portfólio, sem vínculo com a Neon.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    min-height: 456px;
+    padding-block: 32px;
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+    font-family: var(--font-family-base);
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
+  }
+
+  .footer__inner {
+    display: flex;
+    min-height: 392px;
+    flex-direction: column;
+    width: calc(100% - 48px);
+  }
+
+  .footer__top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer__brand {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .footer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 36px;
+  }
+
+  .footer__nav a {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    text-decoration: none;
+    text-underline-offset: 4px;
+  }
+
+  .footer__nav a:hover {
+    text-decoration: underline;
+  }
+
+  .footer__notice {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgb(255 255 255 / 24%);
+    color: rgb(255 255 255 / 80%);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 768px) {
+    .footer__inner {
+      width: calc(100% - var(--container-gutter) - var(--container-gutter));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .footer {
+      min-height: 292px;
+      padding-block: 48px;
+    }
+
+    .footer__inner {
+      min-height: 196px;
+    }
+
+    .footer__top {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .footer__brand {
+      min-height: 49px;
+    }
+
+    .footer__nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 24px 40px;
+      margin-top: 0;
+    }
+  }
+</style>

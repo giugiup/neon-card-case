@@ -1,0 +1,411 @@
+---
+const baseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+
+const steps = [
+  { title: 'Abra sua conta', description: 'Comece seu cadastro para abrir uma conta Neon.' },
+  { title: 'Acesse o aplicativo', description: 'Entre no app e confirme seus dados para continuar.' },
+  { title: 'Peça seu cartão', description: 'Na área de crédito, envie o pedido e aguarde a análise.' },
+];
+
+---
+
+<section class="steps" aria-labelledby="steps-title">
+  <div class="container steps__layout">
+    <div class="steps__content">
+      <div class="steps__intro">
+        <h2 id="steps-title">
+          <span>Do primeiro passo</span>{' '}
+          <span class="steps__card-art" aria-hidden="true">
+            <span class="steps__card-rotation">
+              <span class="steps__card-crop">
+                <img src={`${baseUrl}images/neon-steps-card.webp`} alt="" width="1254" height="1254" loading="lazy" decoding="async" />
+              </span>
+            </span>
+          </span>
+          <span>ao pedido.</span>
+        </h2>
+        <p class="steps__subtitle">Veja como começar sua jornada com a Neon.</p>
+      </div>
+
+      <ol class="steps__timeline" role="list" data-scroll-reveal="timeline">
+        {steps.map((step, index) => (
+          <li class="steps__step" style={`--step-delay: ${index * 770}ms`}>
+            <span class="steps__number" aria-hidden="true">{index + 1}</span>
+            <div class="steps__copy">
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="steps__action">
+        <button class="steps__cta button-interaction" type="button" data-demo-open aria-haspopup="dialog" aria-controls="demo-modal">Começar solicitação</button>
+        <p class="steps__legal">Abrir uma conta não garante a aprovação do cartão.</p>
+      </div>
+    </div>
+
+    <div class="steps__pig" aria-hidden="true">
+      <img src={`${baseUrl}images/neon-steps-pig.webp`} alt="" width="1254" height="1254" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initScrollReveal } from '../scripts/scroll-reveal';
+
+  initScrollReveal();
+</script>
+
+<style>
+  .steps {
+    min-height: 867px;
+    padding-block: 64px 66px;
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-base);
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
+  }
+
+  .steps__layout {
+    display: grid;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .steps__content {
+    min-width: 0;
+  }
+
+  .steps__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 146px;
+  }
+
+  h2 {
+    font-size: var(--font-size-h2-mobile);
+    line-height: 1.18;
+  }
+
+  .steps__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.48;
+  }
+
+  .steps__card-art,
+  .steps__pig {
+    display: none;
+  }
+
+  .steps__timeline {
+    display: grid;
+    gap: 24px;
+    margin-top: 36px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .steps__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    align-content: start;
+    gap: 18px;
+    min-height: 128px;
+    min-width: 0;
+  }
+
+  /* Cada conector acompanha a altura real da etapa, inclusive com zoom. */
+  .steps__step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 25px;
+    top: 26px;
+    width: 2px;
+    height: calc(100% + 24px);
+    border-radius: 1px;
+    background: var(--color-border);
+  }
+
+  :global(html.has-scroll-reveal) .steps__timeline[data-scroll-reveal="timeline"]:not([data-scroll-revealed="true"]) .steps__step:not(:last-child)::after {
+    transform: scaleY(0);
+    transform-origin: center top;
+  }
+
+  .steps__timeline[data-scroll-reveal="timeline"][data-scroll-revealed="true"] .steps__step:not(:last-child)::after {
+    transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--step-delay, 0ms);
+  }
+
+  .steps__number {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-action);
+    color: var(--color-text-inverse);
+    font-size: 1.1875rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.1;
+  }
+
+  :global(html.has-scroll-reveal) .steps__timeline[data-scroll-reveal="timeline"]:not([data-scroll-revealed="true"]) .steps__number {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+
+  .steps__timeline[data-scroll-reveal="timeline"][data-scroll-revealed="true"] .steps__number {
+    transition:
+      opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--step-delay, 0ms);
+    animation: steps-marker-highlight 650ms cubic-bezier(0.22, 1, 0.36, 1) var(--step-delay, 0ms) both;
+  }
+
+  @keyframes steps-marker-highlight {
+    50% {
+      box-shadow: 0 0 0 7px rgb(13 110 211 / 18%);
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .steps__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+  }
+
+  :global(html.has-scroll-reveal) .steps__timeline[data-scroll-reveal="timeline"]:not([data-scroll-revealed="true"]) .steps__copy {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  .steps__timeline[data-scroll-reveal="timeline"][data-scroll-revealed="true"] .steps__copy {
+    transition:
+      opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--step-delay, 0ms);
+  }
+
+  h3 {
+    font-size: 1.375rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+  }
+
+  .steps__copy p {
+    max-width: 266px;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.48;
+  }
+
+  .steps__action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .steps__cta {
+    min-height: 56px;
+    max-width: 100%;
+    padding: 16px 24px;
+    border: 0;
+    border-radius: 100px;
+    background: var(--color-action);
+    color: var(--color-text-inverse);
+    font-size: 1rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.15;
+    cursor: pointer;
+  }
+
+  .steps__legal {
+    width: 100%;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  @media (min-width: 1200px) {
+    .steps {
+      min-height: 709px;
+      padding-block: 100px;
+    }
+
+    .steps__layout {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .steps__content {
+      grid-column: span 2;
+      min-height: 509px;
+      padding-top: 5px;
+    }
+
+    .steps__intro {
+      gap: 18px;
+      min-height: 103px;
+    }
+
+    h2 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 16px;
+      font-size: var(--font-size-h2-desktop);
+      line-height: 1.13;
+    }
+
+    .steps__card-art {
+      position: relative;
+      display: block;
+      flex-shrink: 0;
+      width: 77.442px;
+      height: 56px;
+    }
+
+    .steps__card-art::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 56.146px;
+      height: 44.479px;
+      border-radius: 16px;
+      background: var(--color-brand);
+      opacity: 0.5;
+    }
+
+    .steps__card-rotation {
+      position: absolute;
+      top: 0;
+      left: 9px;
+      display: grid;
+      place-items: center;
+      width: 68.442px;
+      height: 54.107px;
+    }
+
+    .steps__card-crop {
+      position: relative;
+      width: 64px;
+      height: 48px;
+      overflow: hidden;
+      transform: rotate(5.69deg);
+    }
+
+    .steps__card-crop img {
+      position: absolute;
+      width: 107.64%;
+      max-width: none;
+      height: auto;
+      left: -7.64%;
+      top: -27.97%;
+    }
+
+    .steps__subtitle {
+      font-size: 1.3125rem;
+    }
+
+    .steps__timeline {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      /* No Figma, o subtítulo ultrapassa seu frame em 2px:
+         a distância visível até os marcadores é de 49px. */
+      margin-top: 49px;
+    }
+
+    .steps__step {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      min-height: 208px;
+    }
+
+    .steps__step:not(:last-child)::after {
+      top: 27px;
+      left: 56px;
+      width: calc(100% + 24px - 56px);
+      height: 2px;
+    }
+
+    :global(html.has-scroll-reveal) .steps__timeline[data-scroll-reveal="timeline"]:not([data-scroll-revealed="true"]) .steps__step:not(:last-child)::after {
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    .steps__timeline[data-scroll-reveal="timeline"][data-scroll-revealed="true"] .steps__step:not(:last-child)::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+
+    .steps__number {
+      width: 56px;
+      height: 56px;
+      font-size: 1.25rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+
+    .steps__copy p {
+      max-width: none;
+      font-size: 1.125rem;
+    }
+
+    .steps__action {
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .steps__cta {
+      min-height: 62px;
+      padding-inline: 28px;
+      font-size: 1.0625rem;
+    }
+
+    .steps__legal {
+      max-width: 540px;
+    }
+
+    /* Crop original do nó 46:124, com proporção intrínseca preservada. */
+    .steps__pig {
+      display: block;
+      position: relative;
+      aspect-ratio: 426.6666564941406 / 449.85504150390625;
+      overflow: hidden;
+    }
+
+    .steps__pig img {
+      position: absolute;
+      width: 105.434773%;
+      max-width: none;
+      height: auto;
+      left: -5.434773%;
+      top: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .steps__timeline[data-scroll-reveal="timeline"] .steps__step:not(:last-child)::after,
+    .steps__timeline[data-scroll-reveal="timeline"] .steps__number,
+    .steps__timeline[data-scroll-reveal="timeline"] .steps__copy {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      animation: none;
+    }
+  }
+</style>

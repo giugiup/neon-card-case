@@ -1,0 +1,66 @@
+:root {
+  /* Cores primitivas: valores fornecidos pelo handoff. */
+  --color-blue-500: #008fff;
+  --color-blue-700: #0062b2;
+  --color-blue-900: #003966;
+  --color-navy-900: #171e3d;
+  --color-turquoise-400: #00fff2;
+  --color-gray-600: #515151;
+  --color-white: #ffffff;
+  --color-gray-50: #f0f5f5;
+  --color-gray-200: #cbd6d6;
+
+  /* Cores semânticas: papéis reutilizáveis na interface. */
+  --color-brand: var(--color-blue-500);
+  --color-action: var(--color-blue-700);
+  --color-brand-deep: var(--color-blue-900);
+  --color-accent: var(--color-turquoise-400);
+  --color-text-primary: var(--color-navy-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-inverse: var(--color-white);
+  --color-surface: var(--color-white);
+  --color-surface-soft: var(--color-gray-50);
+  --color-surface-dark: var(--color-navy-900);
+  --color-border: var(--color-gray-200);
+  --color-focus: var(--color-blue-700);
+
+  /* Tipografia inicial. Os 12 estilos locais do Figma serão a referência
+     definitiva; estes tokens não representam o catálogo completo. */
+  --font-family-base: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-size-h1-mobile: 2.25rem; /* 36px na base padrão de 16px. */
+  --font-size-h1-desktop: 4rem; /* 64px. */
+  --font-size-h2-mobile: 2.125rem; /* Aproximadamente 34px. */
+  --font-size-h2-desktop: 3rem; /* 48px. */
+  --font-size-h1: var(--font-size-h1-mobile);
+  --font-size-h2: var(--font-size-h2-mobile);
+
+  /* O limite se aplica ao conteúdo, sem incluir as margens laterais. */
+  --container-max-width: 1248px;
+  --container-gutter: 20px;
+}
+
+@media (min-width: 360px) {
+  :root {
+    --container-gutter: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-gutter: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-gutter: 48px;
+    --font-size-h1: var(--font-size-h1-desktop);
+    --font-size-h2: var(--font-size-h2-desktop);
+  }
+}
+
+/* A partir de 1200px, mantém-se o mínimo de 48px. O limite de conteúdo
+   gera margens de 96px em 1440px e margens maiores em telas mais largas. */

@@ -2,6 +2,6 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   site: 'https://giugiup.github.io',
-  base: '/neon-cartao-case-study',
+  base: '/neon-card-case',
   output: 'static',
 });

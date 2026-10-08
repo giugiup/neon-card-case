@@ -1,5 +1,5 @@
 {
-  "name": "neon-cartao-case-study",
+  "name": "neon-card-case",
   "version": "1.0.0",
   "description": "Landing page responsiva do cartão de crédito Neon. Estudo independente de UI Design e desenvolvimento front-end.",
   "main": "index.js",
@@ -11,16 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/giugiup/neon-cartao-case-study.git"
+    "url": "git+https://github.com/giugiup/neon-card-case.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/giugiup/neon-cartao-case-study/issues"
+    "url": "https://github.com/giugiup/neon-card-case/issues"
   },
-  "homepage": "https://github.com/giugiup/neon-cartao-case-study#readme",
+  "homepage": "https://github.com/giugiup/neon-card-case#readme",
   "dependencies": {
     "astro": "^7.3.7"
   },
